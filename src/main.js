@@ -12,12 +12,20 @@ const router = createRouter({
   routes: [
     { path: "/", redirect: "/teams" },
     {
+      name: "teams",
       path: "/teams",
       component: TeamsList,
-      children: [{ path: ":teamId", component: TeamMembers, props: true }],
+      children: [
+        {
+          name: "team-members",
+          path: ":teamId",
+          component: TeamMembers,
+          props: true,
+        },
+      ],
     },
-    { path: "/users", component: UsersList },
-    { path: "/:notFound(.*)", component: NotFound },
+    { name: "users", path: "/users", component: UsersList },
+    { name: "not-found", path: "/:notFound(.*)", component: NotFound },
   ],
   linkActiveClass: "active",
 });
