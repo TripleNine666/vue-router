@@ -1,5 +1,6 @@
 <template>
   <button @click="confirm">Confirm</button>
+  <button @click="sendForm">Send form</button>
   <ul>
     <user-item
       v-for="user in users"
@@ -18,7 +19,15 @@ export default {
     UserItem,
   },
   inject: ["users"],
+  data() {
+    return {
+      changesSaved: false,
+    };
+  },
   methods: {
+    sendForm() {
+      this.changesSaved = true;
+    },
     confirm() {
       this.$router.push("/teams");
     },
@@ -27,6 +36,15 @@ export default {
     console.log("BeforeRouteEnter UsersList");
     console.log(to, from);
     next();
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log("BeforeRouteLeave UsersList");
+    if (this.changesSaved) {
+      next();
+    } else {
+      const userDecision = confirm("Are you sure? You have unsaved data!");
+      next(userDecision);
+    }
   },
 };
 </script>
