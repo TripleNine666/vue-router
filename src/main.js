@@ -41,12 +41,24 @@ const router = createRouter({
   ],
   linkActiveClass: "active",
   scrollBehavior(to, from, savedPosition) {
-    console.log(to, from, savedPosition);
+    // console.log(to, from, savedPosition);
     if (savedPosition) {
       return savedPosition;
     }
     return { top: 0, left: 0 };
   },
+});
+
+router.beforeEach(function (to, from, next) {
+  console.log("Global beforEach");
+  console.log(to, from);
+  // next(false); // deny  access
+  // if (to.name === "team-members") {
+  //   next();
+  // } else {
+  //   next({ name: "team-mambers", params: { teamId: "t2" } });
+  // }
+  next();
 });
 
 const app = createApp(App);
